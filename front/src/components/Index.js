@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-
-import { Table, Card ,Form,Modal,Row,Col} from 'react-bootstrap';
+import { Table, Alert, Container } from 'react-bootstrap'
+// import { Table, Card ,Form,Modal,Row,Col} from 'react-bootstrap';
 
 class Index extends Component {
     constructor(...props) {
         super(...props);
         this.state = {
             product: [],
+            productBackup:[],
+            txtBuscar:''
         }
     }
     cargarDatos() {
@@ -23,7 +25,8 @@ class Index extends Component {
             .then((res) => {
                 console.log('result', res)
                 this.setState({
-                    product: res.product
+                    product: res.product,
+                    productBackup:res.product
                 })
             })
             .catch(function (error) {
@@ -31,63 +34,83 @@ class Index extends Component {
             });
 
     }
+
+
     componentDidMount() {
         this.cargarDatos();
-    
+
+
     }
+
     render() {
         {
             const { product } = this.state;
-            
+
             // console.log('testing', product)
             return (
                 <>
-                    <h1>Lista de productos</h1>
-              
-                 
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <Table className="table-responsive" striped bordered hover >
-                        <thead>
-                            <tr>
-                                <th>id</th>
-                                <th> product_name</th>
-                                <th> stock</th>
-                                <th>product_image</th> 
-                                
-                                <th> Boleta </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {(product) ?
-                                product.map(item => (
-                                    <tr key={item._id}>
-                                         <td>{item.id}</td>
-                                        <td>{item.product_name}</td>
-                                        <td>{item.stock}</td>
-                                        <td>{item.product_image}</td>
-                                       
-                                        
-                                        <button className="btn btn-primary"  >  
-                                         </button>
-                                        <td> 
-                                             <button className="btn btn-success">
-                                        Boleta</button>
-                                        </td>
-                                    </tr>
-                                ))
-                                :
-                                <tr></tr>}
-                        </tbody>
-                    </Table>
-              
-                    
+                    <Container>
+                        <Alert variant="success">
+                            <Alert.Heading>Hey, nice to see you</Alert.Heading>
+                            <p>
+                                Aww yeah, you successfully read this important alert message. This example
+                                text is going to run a bit longer so that you can see how spacing within an
+                                alert works with this kind of content.
+                            </p>
+                            <hr />
+                            <p className="mb-0">
+                                Whenever you need to, be sure to use margin utilities to keep things nice
+                                and tidy.
+                            </p>
+                        </Alert>
+                        <h1>Lista de productos</h1>
+
+                        <input class="form-control"
+                          value={this.state.txtBuscar}
+                           />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <Table className="table-responsive" striped bordered hover >
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th> product_name</th>
+                                    <th> stock</th>
+                                    <th>product_image</th>
+
+                                    <th> Boleta </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {(product) ?
+                                    product.map(item => (
+                                        <tr key={item._id}>
+                                            <td>{item.id}</td>
+                                            <td>{item.product_name}</td>
+                                            <td>{item.stock}</td>
+                                            <td> <img src={item.product_image}/> </td>
+
+
+                                            <button className="btn btn-primary"  > Test
+                                            </button>
+                                            <td>
+                                                <button className="btn btn-success">
+                                                    Boleta</button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                    :
+                                    <tr></tr>}
+                            </tbody>
+                        </Table>
+
+                    </Container>
                 </>
             )
         }
-     
+
     }
 }
 export default Index
